@@ -46,10 +46,10 @@ main .canvas-area div{
     position: sticky;
 }
 
-.figure .visible{
+.visible{
     display: block;
 }
-.figure .invisible{
+.invisible{
     display: none;
 }
 
