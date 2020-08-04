@@ -19,15 +19,32 @@ function Figure(props) {
         console.log('sp')
     }
 
+
+    let choosenId;
+
+    const ChooseFigure = (e) => {
+        choosenId = e.target.id;
+    }
+
+    document.addEventListener("keydown", (e) => {
+        if(e.keyCode === 46){
+            let del = document.getElementById(choosenId);
+            if(del && del.parentNode.id === 'canvasArea'){                
+                del.parentNode.removeChild(del);
+            }
+        }
+    });
+
     return (
         <div
             id={`figure-${props.id}`}
             key={`figure-${props.id}`}
             className={`${props.className}`}
+            style={props.style}
             draggable={props.draggable}
             onDragStart={DragStart}
             onDragOver={DragOver}
-            style={props.style}
+            onClick={ChooseFigure}
         >
             { props.children }
         </div>
