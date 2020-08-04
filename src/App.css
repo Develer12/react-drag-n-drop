@@ -43,7 +43,7 @@ main .canvas-area div{
 }
 
 .canvas-area .figure{
-    position: sticky;
+    position: fixed;
 }
 
 .visible{

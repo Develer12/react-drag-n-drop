@@ -16,28 +16,37 @@ function Canvas(props) {
     }
 
     const drop = (e) => {
+
         e.preventDefault();
         const fig_id = e.dataTransfer.getData('fig_id');
         
-
         const fig = document.getElementById(fig_id);
+
+        /*
+        setTimeout(() => {
+            let invisible = document.getElementById('canvasArea');
+            invisible = invisible.getElementsByClassName('invisible');
+            if(invisible[0]){
+                for (let i = 0; i < invisible.length; i++) {
+                    if(invisible.id !== fig_id){
+                        invisible[i].parentNode.removeChild(invisible[i])
+                    }
+                }
+            }
+        }, 0);
+        */
 
         let id = randomId();
         while(document.getElementById(id)){
             id = randomId();
         }
 
-        let inArea = document.getElementById('canvasArea');
-        inArea = inArea.querySelector(`[id='${fig.id}']`);
 
-        //let canvasArea = document.getElementById('canvasArea');
         let pageX = e.pageX, pageY = e.pageY;
 
         let style = {
             left: pageX - figureW/2,
-            top: pageY - figureH/2,
-            //left: `${ ((pageX - figureW/2) / canvasArea.offsetWidth * 100).toFixed(1)}%`, 
-            //top: `${ ((pageY - figureH/2) / canvasArea.offsetHeight * 100).toFixed(1)}%`
+            top: pageY - figureH/2
         };
 
         if(fig && id !== fig.id){
@@ -45,7 +54,6 @@ function Canvas(props) {
             if(fig.parentNode.id === 'canvasArea'){
                 let index = figOnCanvas.findIndex((item) => `figure-${item.id}` === fig.id);
                 figOnCanvas[index].style = style;
-                console.log(figOnCanvas[index].className)
             }
             else{
                 figOnCanvas.push({ 
@@ -68,15 +76,23 @@ function Canvas(props) {
                 )
             ));
 
-            ReactDOM.render(figures, e.target);
+            ReactDOM.render(figures, document.getElementById('canvasArea'));
 
             setTimeout(() => {
-                let invisible = document.getElementById('canvasArea');
-                invisible = invisible.getElementsByClassName('invisible')[0];
-                if(invisible){
-                    invisible.classList.remove('invisible');
-                    invisible.classList.add('visible');
-                }
+                document.getElementById(fig.id).classList.remove('invisible');
+                document.getElementById(fig.id).classList.add('visible');
+
+                setTimeout(() => {
+                    let invisible = document.getElementById('canvasArea');
+                    invisible = invisible.getElementsByClassName('invisible');
+                    if(invisible[0]){
+                        for (let i = 0; i < invisible.length; i++) {
+                            if(invisible.id !== fig_id){
+                                invisible[i].parentNode.removeChild(invisible[i])
+                            }
+                        }
+                    }
+                }, 10);
             }, 0);
         }
         
@@ -85,10 +101,6 @@ function Canvas(props) {
     const dragOver = (e) => {
         e.preventDefault();
         console.log('can drag')
-        if(!e.target.classList.contains('canvas-area')){
-            console.log('out')
-
-        }
     }
 
     return (
@@ -104,7 +116,7 @@ function Canvas(props) {
                         key={`fig-${item.id}`} 
                         id={item.id} 
                         draggable={item.draggable} 
-                        className={item.className} 
+                        className={item.className}
                     />
                 ))
             }
