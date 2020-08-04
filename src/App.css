@@ -1,38 +1,62 @@
-.App {
-  text-align: center;
+main{
+  margin: 5%;
+  height: 100%;
+  display: flex;
+  background-color: white;
+  min-width: 500px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.canvas{
+  border: 1px solid black;
+  min-height: 500px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.canvas-figures{
+  width: 10%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-items: center;
+  z-index: 1;
+  background-color: inherit;
 }
 
-.App-link {
-  color: #61dafb;
+main .canvas-figures div{
+  margin: 20px auto 0px auto;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.canvas-area{
+  width: 90%;
+  display: flex;
+}
+main .canvas-area div{
+    position: sticky;
+}
+
+.circle{
+    background-color: rgb(105, 105, 204);
+    border-radius: 50%;
+}
+
+.figure{
+    height: 40px;
+    width: 40px;
+}
+
+.canvas-area .figure{
+    position: sticky;
+}
+
+.figure .visible{
+    display: block;
+}
+.figure .invisible{
+    display: none;
+}
+
+.figure:active{
+    border: 1px solid black;
+}
+
+.block{
+    background-color: rgb(105, 204, 122);
 }
