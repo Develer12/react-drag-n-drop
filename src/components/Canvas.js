@@ -5,45 +5,37 @@ import Figure from './Figure'
 
 function Canvas(props) {
 
-    let figOnCanvas = [
-        
-    ];
-
+    let figOnCanvas = [];
     let figureH = 40, figureW = 40;
 
     let randomId = () => {
         return Math.floor(Math.random() * (10000 - 1)) + 1;
     }
 
+    const setStorage = (key, obj) => {
+        return sessionStorage.setItem(key, JSON.stringify(obj))
+    }
+
+    const getStorage = (key) => {
+        let obj = JSON.parse(sessionStorage.getItem(key));
+        obj = obj? obj : [];
+        return obj
+    }
+
+    figOnCanvas = getStorage('figOnCanvas');
+
     const drop = (e) => {
 
         e.preventDefault();
         const fig_id = e.dataTransfer.getData('fig_id');
-        
         const fig = document.getElementById(fig_id);
-
-        /*
-        setTimeout(() => {
-            let invisible = document.getElementById('canvasArea');
-            invisible = invisible.getElementsByClassName('invisible');
-            if(invisible[0]){
-                for (let i = 0; i < invisible.length; i++) {
-                    if(invisible.id !== fig_id){
-                        invisible[i].parentNode.removeChild(invisible[i])
-                    }
-                }
-            }
-        }, 0);
-        */
 
         let id = randomId();
         while(document.getElementById(id)){
             id = randomId();
         }
 
-
         let pageX = e.pageX, pageY = e.pageY;
-
         let style = {
             left: pageX - figureW/2,
             top: pageY - figureH/2
@@ -64,18 +56,20 @@ function Canvas(props) {
                 });
             }
 
+            setStorage('figOnCanvas', figOnCanvas);
+
             const figures = [];
             figOnCanvas.map((item) => (
                 figures.push(React.createElement(
                     Figure, { 
-                        id: item.id, 
+                        id: item.id,
+                        key: item.id, 
                         draggable: item.draggable,
                         style: item.style, 
                         className: item.className
                     })
                 )
             ));
-
             ReactDOM.render(figures, document.getElementById('canvasArea'));
 
             setTimeout(() => {
@@ -94,13 +88,12 @@ function Canvas(props) {
                     }
                 }, 10);
             }, 0);
-        }
-        
+
+        }  
     }
 
     const dragOver = (e) => {
         e.preventDefault();
-        console.log('can drag')
     }
 
     return (
@@ -111,10 +104,11 @@ function Canvas(props) {
             onDragOver={dragOver}
         >
             {
-                figOnCanvas.map((item) => (
+                getStorage('figOnCanvas').map((item) => (
                     <Figure 
-                        key={`fig-${item.id}`} 
+                        key={item.id} 
                         id={item.id} 
+                        style={item.style} 
                         draggable={item.draggable} 
                         className={item.className}
                     />

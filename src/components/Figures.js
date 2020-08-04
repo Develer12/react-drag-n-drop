@@ -10,7 +10,6 @@ let figList = [
 
 function Figures(props) {
 
-
     const dragOver = (e) => {
         e.preventDefault();
     }
@@ -23,7 +22,12 @@ function Figures(props) {
         >
             { 
                 figList.map((item) => (
-                    <Figure key={`fig-${item.id}`} id={item.id} draggable="true" className={item.className} />
+                    <Figure 
+                        key={item.id} 
+                        id={item.id} 
+                        draggable="true" 
+                        className={item.className} 
+                    />
                 ))
             }
             { props.children }

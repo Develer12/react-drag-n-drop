@@ -5,7 +5,6 @@ function Figure(props) {
     const DragStart = (e) => {
         const target = e.target;
         e.dataTransfer.setData('fig_id', target.id);
-        console.log('st')
 
         setTimeout(() => {
             if(target.parentElement.id === 'canvasArea'){
@@ -16,7 +15,6 @@ function Figure(props) {
 
     const DragOver = (e) => {
         e.stopPropagation();
-        console.log('sp')
     }
 
 
